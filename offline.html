@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Moles World</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #5D4037 0%, #8D6E63 100%);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #FFD54F;
+        }
+        
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .offline-fact {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #FFD54F;
+        }
+        
+        button {
+            background: #FFD54F;
+            color: #5D4037;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 15px;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 213, 79, 0.4);
+        }
+        
+        .mole-icon {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🚫📶</div>
+        <h1>You're Offline</h1>
+        <p>Don't worry! Moles spend most of their time underground too.</p>
+        
+        <div class="offline-fact">
+            <strong>Offline Mole Fact:</strong><br>
+            Moles can survive in low-oxygen environments that would be difficult for other mammals. They've adapted perfectly to their underground lifestyle!
+        </div>
+        
+        <p>You can still access previously viewed content. Check back when you have an internet connection for new mole facts and images.</p>
+        
+        <button onclick="window.location.reload()">Try Again</button>
+        <button onclick="window.history.back()">Go Back</button>
+    </div>
+    
+    <script>
+        // Check connection status periodically
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
