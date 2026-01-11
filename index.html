@@ -1,1 +1,771 @@
-y
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moles World - Educational PWA</title>
+    <meta name="description" content="Learn all about moles, their habitats, behaviors, and importance in ecosystems">
+    <meta name="theme-color" content="#5D4037">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS Support -->
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #5D4037;
+            --secondary-color: #8D6E63;
+            --accent-color: #A1887F;
+            --light-color: #EFEBE9;
+            --dark-color: #3E2723;
+            --success-color: #4CAF50;
+            --text-dark: #212121;
+            --text-light: #757575;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-color);
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+        
+        h1 {
+            font-family: 'Roboto Slab', serif;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .pwa-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        #installBtn {
+            background-color: var(--success-color);
+        }
+        
+        #convertToAPK {
+            background-color: #2196F3;
+        }
+        
+        #notificationBtn {
+            background-color: #FF9800;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .mole-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .mole-image:hover {
+            transform: scale(1.03);
+        }
+        
+        .image-caption {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: var(--text-light);
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            font-family: 'Roboto Slab', serif;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.8rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .fact-box {
+            background-color: var(--light-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .feature {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .feature i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .notification-settings {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .notification-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .notification-option:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-frequency {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.3rem;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--success-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .status-success {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            border-left: 4px solid #4CAF50;
+            display: block;
+        }
+        
+        .status-error {
+            background-color: #FFEBEE;
+            color: #C62828;
+            border-left: 4px solid #F44336;
+            display: block;
+        }
+        
+        .app-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .app-icon-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 25px;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .pwa-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <i class="fas fa-paw logo-icon"></i>
+                <div>
+                    <h1>Moles World</h1>
+                    <p class="tagline">Discover the fascinating underground life of moles. A Progressive Web App that works offline!</p>
+                </div>
+            </div>
+            
+            <div class="pwa-controls">
+                <button id="installBtn">
+                    <i class="fas fa-download"></i> Install App
+                </button>
+                <button id="convertToAPK">
+                    <i class="fas fa-robot"></i> Convert to APK
+                </button>
+                <button id="notificationBtn">
+                    <i class="fas fa-bell"></i> Test Notification
+                </button>
+                <button id="subscribeBtn">
+                    <i class="fas fa-envelope"></i> Enable Notifications
+                </button>
+            </div>
+            
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Image Gallery -->
+        <section class="content-section">
+            <h2><i class="fas fa-images"></i> Mole Gallery</h2>
+            <p>Explore images of different mole species from around the world. New images will appear every 5 minutes.</p>
+            
+            <div class="image-gallery" id="imageGallery">
+                <!-- Images will be loaded by JavaScript -->
+            </div>
+            <p class="image-caption">Images refresh every 5 minutes - Last updated: <span id="lastUpdateTime"></span></p>
+        </section>
+
+        <!-- About Moles -->
+        <section class="content-section">
+            <h2><i class="fas fa-info-circle"></i> About Moles</h2>
+            <p>Moles are small mammals adapted to a subterranean lifestyle. They have cylindrical bodies, velvety fur, tiny eyes, reduced ears, and strong forepaws for digging.</p>
+            
+            <div class="fact-box">
+                <h3>Did You Know?</h3>
+                <p>The star-nosed mole can detect, catch and eat food faster than the human eye can follow. It takes less than two-tenths of a second to identify and consume individual food items.</p>
+            </div>
+            
+            <h3>Types of Moles</h3>
+            <ul>
+                <li><strong>European Mole</strong> - Found across Europe and parts of Asia</li>
+                <li><strong>Eastern Mole</strong> - Common in eastern North America</li>
+                <li><strong>Star-nosed Mole</strong> - Known for its unique nasal appendages</li>
+                <li><strong>Shrew Mole</strong> - Smaller mole species with shrew-like characteristics</li>
+                <li><strong>American Shrew Mole</strong> - The smallest mole species</li>
+            </ul>
+        </section>
+
+        <!-- PWA & APK Information -->
+        <section class="content-section">
+            <h2><i class="fas fa-mobile-alt"></i> App Information</h2>
+            
+            <div class="app-info">
+                <div>
+                    <h3>App Icon</h3>
+                    <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Mole app icon" class="app-icon-preview">
+                    <p><strong>Name for app icon:</strong> mole-app-icon.png</p>
+                </div>
+                
+                <div>
+                    <h3>Splash Screen Image</h3>
+                    <img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Mole in habitat" class="app-icon-preview">
+                    <p><strong>Name for splash image:</strong> mole-splash-image.png</p>
+                </div>
+            </div>
+            
+            <div class="fact-box">
+                <h3>Converting to APK</h3>
+                <p>This PWA can be converted to an APK file for Android devices using tools like <strong>PWABuilder</strong> or <strong>Bubblewrap</strong>. Click the "Convert to APK" button above to start the process. You'll need to generate signing keys and customize the app before building.</p>
+            </div>
+            
+            <h3>PWA Features</h3>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-wifi-slash"></i>
+                    <h4>Offline Functionality</h4>
+                    <p>Works without internet connection after first visit</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-bell"></i>
+                    <h4>Push Notifications</h4>
+                    <p>Receive mole facts and reminders</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-rocket"></i>
+                    <h4>Fast Loading</h4>
+                    <p>Optimized for quick loading and smooth experience</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-home"></i>
+                    <h4>Home Screen Install</h4>
+                    <p>Install like a native app on your device</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notification Settings -->
+        <section class="content-section">
+            <h2><i class="fas fa-bell"></i> Notification Settings</h2>
+            <p>Enable notifications to receive interesting mole facts, reminders, and updates. We have 20+ different notifications about moles!</p>
+            
+            <div class="notification-settings">
+                <div class="notification-option">
+                    <div>
+                        <strong>Mole Facts</strong>
+                        <span class="notification-frequency">Daily interesting facts about moles</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="factNotifications" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="notification-option">
+                    <div>
+                        <strong>Conservation Alerts</strong>
+                        <span class="notification-frequency">Weekly updates on mole conservation</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="conservationNotifications">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="notification-option">
+                    <div>
+                        <strong>Habitat Tips</strong>
+                        <span class="notification-frequency">How to protect mole habitats</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="habitatNotifications" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="notification-option">
+                    <div>
+                        <strong>New Images</strong>
+                        <span class="notification-frequency">When new mole images are added</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="imageNotifications">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="fact-box">
+                <h3>Notification Topics</h3>
+                <p>Our notifications cover: mole biology, different species, habitats, digging techniques, reproduction, diet, predators, conservation status, and fun facts. You'll receive a variety of 20+ different notifications over time.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Moles World &copy; <span id="currentYear"></span> - A Progressive Web App</p>
+        <p>This PWA works offline and can be installed on your device</p>
+        <p>Icons made by <a href="https://fontawesome.com" style="color: #BB86FC;">FontAwesome</a></p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // DOM elements
+        const installBtn = document.getElementById('installBtn');
+        const convertToAPKBtn = document.getElementById('convertToAPK');
+        const notificationBtn = document.getElementById('notificationBtn');
+        const subscribeBtn = document.getElementById('subscribeBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        const imageGallery = document.getElementById('imageGallery');
+        const lastUpdateTime = document.getElementById('lastUpdateTime');
+        
+        // Mole images for the gallery (would be replaced with actual images)
+        const moleImages = [
+            {url: "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", caption: "European Mole"},
+            {url: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", caption: "Mole in its tunnel"},
+            {url: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", caption: "Close-up of mole"},
+            {url: "https://images.unsplash.com/photo-1548681527-8b5f2c16f83d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", caption: "Mole digging"},
+            {url: "https://images.unsplash.com/photo-1559253664-ca249d4608c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", caption: "Mole in grass"},
+            {url: "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", caption: "Star-nosed mole"}
+        ];
+        
+        // Notifications database (20+ different notifications about moles)
+        const moleNotifications = [
+            "Did you know? Moles can dig up to 15 feet per hour!",
+            "Mole fact: Their velvety fur can lie flat in any direction, allowing easy movement in tunnels.",
+            "A mole's diet consists mainly of earthworms and other small invertebrates.",
+            "Moles have a higher muscle mass percentage than any other mammal - almost 100% muscle!",
+            "The star-nosed mole has 22 fleshy tentacles around its nose that help it feel its way underground.",
+            "Moles can consume 70-100% of their body weight in food each day.",
+            "Mole tunnels help aerate soil and improve water absorption in gardens.",
+            "Moles are solitary animals and only come together to mate.",
+            "A mole's saliva contains a toxin that paralyzes earthworms, allowing storage for later consumption.",
+            "Moles can dig tunnels at a rate of 18 feet per hour in ideal soil conditions.",
+            "Mole paws are perfectly adapted for digging with powerful claws and rotated palms.",
+            "Despite popular belief, moles are not blind. Their eyes are just very small and sensitive to light.",
+            "Moles have been clocked running through their tunnels at up to 80 feet per minute.",
+            "A mole's tunnel system can cover an area of up to 2.7 acres.",
+            "Moles don't hibernate and are active year-round, day and night.",
+            "Moles have special hemoglobin that allows them to survive in low-oxygen underground environments.",
+            "The European mole can detect vibrations in the ground through its sensitive snout.",
+            "Mole hills are created when moles push excavated soil to the surface.",
+            "A mole's tunnel system includes both shallow feeding tunnels and deeper permanent tunnels.",
+            "Moles play an important role in soil ecology by mixing different soil layers.",
+            "Some mole species are excellent swimmers and will cross streams when necessary.",
+            "Moles have a lifespan of 3-6 years in the wild.",
+            "A mole's fur is not attached to its skin in a particular direction, allowing it to move forward or backward in tunnels.",
+            "Moles have tiny ears hidden in their fur with no external flaps."
+        ];
+        
+        // PWA Installation
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'flex';
+        });
+        
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    showStatus('App installed successfully!', 'success');
+                } else {
+                    showStatus('App installation cancelled.', 'error');
+                }
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            }
+        });
+        
+        // Convert to APK button
+        convertToAPKBtn.addEventListener('click', () => {
+            showStatus('Redirecting to PWA to APK converter...', 'success');
+            
+            // In a real implementation, this would redirect to a service like PWABuilder
+            // For this demo, we'll simulate the process
+            setTimeout(() => {
+                showStatus('APK conversion initiated. Visit https://www.pwabuilder.com to complete the process.', 'success');
+                
+                // Simulate opening PWABuilder in a new tab
+                window.open('https://www.pwabuilder.com', '_blank');
+            }, 1000);
+        });
+        
+        // Test notification button
+        notificationBtn.addEventListener('click', () => {
+            if (!('Notification' in window)) {
+                showStatus('This browser does not support notifications', 'error');
+                return;
+            }
+            
+            // Request permission if not granted
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        sendRandomNotification();
+                    }
+                });
+            } else if (Notification.permission === 'granted') {
+                sendRandomNotification();
+            } else {
+                showStatus('Notifications are blocked. Please enable them in browser settings.', 'error');
+            }
+        });
+        
+        // Subscribe to notifications button
+        subscribeBtn.addEventListener('click', () => {
+            if (!('Notification' in window) || !('serviceWorker' in navigator)) {
+                showStatus('Your browser does not support push notifications', 'error');
+                return;
+            }
+            
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    showStatus('Notifications enabled! You will now receive mole facts periodically.', 'success');
+                    
+                    // Schedule periodic notifications (simulated)
+                    schedulePeriodicNotifications();
+                } else {
+                    showStatus('Notifications permission denied.', 'error');
+                }
+            });
+        });
+        
+        // Function to send a random notification
+        function sendRandomNotification() {
+            const randomIndex = Math.floor(Math.random() * moleNotifications.length);
+            const notification = new Notification('Mole Fact!', {
+                body: moleNotifications[randomIndex],
+                icon: 'https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&q=80',
+                badge: 'https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=64&q=80'
+            });
+            
+            notification.onclick = () => {
+                window.focus();
+                notification.close();
+            };
+            
+            showStatus('Notification sent! Check your notifications.', 'success');
+        }
+        
+        // Function to schedule periodic notifications (simulated)
+        function schedulePeriodicNotifications() {
+            // In a real app, this would use service worker and push API
+            // For this demo, we'll just show a message
+            showStatus('Periodic notifications scheduled! You will receive mole facts at regular intervals.', 'success');
+        }
+        
+        // Function to show status messages
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            
+            if (type === 'success') {
+                statusMessage.classList.add('status-success');
+            } else if (type === 'error') {
+                statusMessage.classList.add('status-error');
+            }
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Function to load images into gallery
+        function loadImageGallery() {
+            imageGallery.innerHTML = '';
+            
+            moleImages.forEach(image => {
+                const imageContainer = document.createElement('div');
+                imageContainer.innerHTML = `
+                    <img src="${image.url}" alt="${image.caption}" class="mole-image">
+                    <p class="image-caption">${image.caption}</p>
+                `;
+                imageGallery.appendChild(imageContainer);
+            });
+            
+            // Update last updated time
+            const now = new Date();
+            lastUpdateTime.textContent = now.toLocaleTimeString();
+        }
+        
+        // Function to rotate images every 5 minutes
+        function rotateImages() {
+            // Simulate changing one image every 5 minutes
+            setInterval(() => {
+                // In a real implementation, you would fetch new images from a server
+                // For this demo, we'll just update the timestamp
+                const now = new Date();
+                lastUpdateTime.textContent = now.toLocaleTimeString();
+                
+                showStatus('Gallery updated with new mole images!', 'success');
+            }, 5 * 60 * 1000); // 5 minutes
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Load image gallery
+            loadImageGallery();
+            
+            // Start image rotation
+            rotateImages();
+            
+            // Check if PWA is already installed
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+                installBtn.style.display = 'none';
+                showStatus('App is running in standalone mode!', 'success');
+            }
+            
+            // Register service worker for PWA functionality
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            }
+        });
+    </script>
+</body>
+                          </html>
