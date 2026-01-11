@@ -1,0 +1,26 @@
+{
+  "name": "moles-world-pwa",
+  "version": "1.0.0",
+  "description": "A Progressive Web App about moles that can be converted to APK",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 8080 -c-1",
+    "build": "echo 'Building PWA...'",
+    "generate-icons": "echo 'Generate icons using: npx pwa-asset-generator icon.png icons'",
+    "test": "echo 'No tests specified'",
+    "deploy": "echo 'Deploy to hosting service'"
+  },
+  "keywords": [
+    "pwa",
+    "moles",
+    "education",
+    "apk",
+    "offline"
+  ],
+  "author": "Moles World Team",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "pwa-asset-generator": "^6.2.0"
+  }
+}
